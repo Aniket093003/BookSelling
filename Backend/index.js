@@ -7,7 +7,9 @@ import userRoute from "./route/user.route.js";
 connectDB()
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    orign:"*"
+}));
 app.use(express.json());
 
 dotenv.config();

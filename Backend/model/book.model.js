@@ -1,12 +1,15 @@
 import mongoose from "mongoose";
 
 const bookSchema = mongoose.Schema({
-    name: String,
-    price: Number,
-    category: String,
-    image: String,
-    title: String,
-});
-const Book = mongoose.model("Book", bookSchema);
+  title: {
+    type: String,
+    unique: true,
+  },
 
-export default Book;
+  price: Number,
+  category: String,
+  image: String
+});
+const bookModel = mongoose.model("Book", bookSchema);
+
+export default bookModel;

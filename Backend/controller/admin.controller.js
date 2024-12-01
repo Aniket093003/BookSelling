@@ -3,6 +3,7 @@ import adminModel from "../model/admin.model.js";
 import bcrypt from "bcrypt";
 import { Router } from "express";
 import dotenv from "dotenv";
+import adminAuth from "../middleware/admin.js";
 dotenv.config();
 const adminRouter = Router();
 
@@ -34,7 +35,7 @@ adminRouter.post("/signup", async (req, res) => {
 
     res.status(201).json({
       message: "Congratulations, You are signed up",
-      user: { id: user._id, fullName: user.fullName, email: user.email }, // Avoid sending sensitive data
+      user: { id: user._id, fullName: user.fullName, email: user.email }, 
       token,
     });
   } catch (error) {
@@ -70,9 +71,7 @@ adminRouter.post("/signin", async (req, res) => {
       });
     }
 
-    const token = jwt.sign({ id: admin._id }, process.env.JWT_ADMIN_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign({ id: admin._id });
 
     res.json({
       message: "Successfully signed in",
@@ -84,5 +83,14 @@ adminRouter.post("/signin", async (req, res) => {
     res.status(500).json({ error: true, message: "Internal server error" });
   }
 });
+
+adminRouter.post("/Add", adminAuth, async(req, res) => {
+  return res.json({
+    msg: "working"
+  })
+})
+
+
+
 
 export default adminRouter;

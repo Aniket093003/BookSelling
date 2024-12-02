@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 import adminModel from "../model/admin.model.js";
 import bcrypt from "bcrypt";
 import { Router } from "express";
@@ -131,7 +132,7 @@ adminRouter.post("/book", adminAuth, async (req, res) => {
     });
   }
 });
-adminRouter.put("/book", adminAuth, async (req, res) => {
+adminRouter.put("/book/:id", adminAuth, async (req, res) => {
   const adminID = req.adminID; // Extract admin ID from the middleware
   const { id } = req.params; // Get the book ID from the route parameter
   const { title, category, image, price } = req.body; // Get updated fields from the request body
@@ -176,7 +177,6 @@ adminRouter.put("/book", adminAuth, async (req, res) => {
       book: updatedBook,
     });
   } catch (err) {
-    console.error(err);
     res.status(500).json({
       err: true,
       message: "Internal server error",

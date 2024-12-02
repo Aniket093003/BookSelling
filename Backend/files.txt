@@ -1,0 +1,49 @@
+-----------------ADMIN___________________
+11111
+{
+    "message": "Congratulations, You are signed up",
+    "user": {
+        "id": "674ca03d34cc557f5da33e7c",
+        "fullName": "Admin1",
+        "email": "admin1@gmail.com"
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NGNhMDNkMzRjYzU1N2Y1ZGEzM2U3YyIsImlhdCI6MTczMzE2MTYyOH0.KhnYbmrG47Mco4YRGPppwteuM781CpW4q02DmX12EZU"
+}
+
+222222
+{
+    "message": "Congratulations, You are signed up",
+    "user": {
+        "id": "674ca07434cc557f5da33e7f",
+        "fullName": "Admin2",
+        "email": "admin2@gmail.com"
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NGNhMDc0MzRjYzU1N2Y1ZGEzM2U3ZiIsImlhdCI6MTczMzA3NTA2MCwiZXhwIjoxNzMzMDc4NjYwfQ.3rRhZ3NphuTE1pvCrHjq-0No9Cle3YCHZmEBE2tbBHg"
+}
+
+
+------------------------USERS-------------------------
+1111
+{
+    "message": "Congratulation, You are signed up as user",
+    "user": {
+        "fullName": "User1",
+        "email": "User1@gmail.com",
+        "password": "$2b$05$aNXpgB/nmnGJA0sM5d606eAsAZhEQPDVFoO8Rl9j9iloxAEWIEaca",
+        "_id": "674ca12ab2b98dcd09fdc49c",
+        "__v": 0
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NGNhMTJhYjJiOThkY2QwOWZkYzQ5YyIsImlhdCI6MTczMzA3NTI0Mn0.KQpJMeGyMt87CQ19Gf3KKHskU6mlH3y4IwdODpMXdaw"
+}
+2222222
+{
+    "message": "Congratulation, You are signed up as user",
+    "user": {
+        "fullName": "User2",
+        "email": "User2@gmail.com",
+        "password": "$2b$05$muhtJDXb3B7U48QXqyTRFuYPoVaVNdGS4t4qIRXiA71KywlBF40hm",
+        "_id": "674ca14eb2b98dcd09fdc49f",
+        "__v": 0
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NGNhMTRlYjJiOThkY2QwOWZkYzQ5ZiIsImlhdCI6MTczMzA3NTI3OH0.ujiyg0VaFSdPQxnViiYFsO6rNcqMeg-Kkr0CrhwqeaM"
+}

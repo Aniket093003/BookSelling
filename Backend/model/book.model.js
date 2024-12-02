@@ -5,10 +5,10 @@ const bookSchema = mongoose.Schema({
     type: String,
     unique: true,
   },
-
   price: Number,
   category: String,
-  image: String
+  image: String,
+  
 });
 const bookModel = mongoose.model("Book", bookSchema);
 

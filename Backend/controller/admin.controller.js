@@ -4,13 +4,14 @@ import bcrypt from "bcrypt";
 import { Router } from "express";
 import dotenv from "dotenv";
 import adminAuth from "../middleware/admin.js";
+import bookModel from "../model/book.model.js";
 dotenv.config();
 const adminRouter = Router();
 
 adminRouter.post("/signup", async (req, res) => {
   const { fullName, email, password } = req.body;
 
-  if ( !fullName || !email || !password ) {
+  if (!fullName || !email || !password) {
     return res.status(400).json({
       error: true,
       message: "All fields {fullName, email, password} are required",
@@ -26,16 +27,20 @@ adminRouter.post("/signup", async (req, res) => {
       });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10); 
-    const user = await adminModel.create({ fullName, email, password: hashedPassword });
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const admin = await adminModel.create({
+      fullName,
+      email,
+      password: hashedPassword,
+    });
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_ADMIN_SECRET, {
-      expiresIn: "1h", 
+    const token = jwt.sign({ id: admin._id }, process.env.JWT_ADMIN_SECRET, {
+      expiresIn: "1h",
     });
 
     res.status(201).json({
       message: "Congratulations, You are signed up",
-      user: { id: user._id, fullName: user.fullName, email: user.email }, 
+      admin: { id: user._id, fullName: user.fullName, email: user.email },
       token,
     });
   } catch (error) {
@@ -71,7 +76,7 @@ adminRouter.post("/signin", async (req, res) => {
       });
     }
 
-    const token = jwt.sign({ id: admin._id });
+    const token = jwt.sign({ id: admin._id }, process.env.JWT_ADMIN_SECRET);
 
     res.json({
       message: "Successfully signed in",
@@ -84,12 +89,101 @@ adminRouter.post("/signin", async (req, res) => {
   }
 });
 
-adminRouter.post("/Add", adminAuth, async(req, res) => {
-  return res.json({
-    msg: "working"
-  })
-})
+adminRouter.post("/book", adminAuth, async (req, res) => {
+  const adminID = req.adminID;
+  const { title, category, image, price } = req.body;
 
+  // Validate input
+  if (!title || !price || !category || !image) {
+    return res.status(400).json({
+      msg: "Please provide all details {title, price, category, image}",
+    });
+  }
+
+  try {
+    // Check for an existing book with the same title
+    const existingBook = await bookModel.findOne({ title });
+    if (existingBook) {
+      return res.status(409).json({
+        error: true,
+        message: "Book already exists",
+      });
+    }
+
+    // Create a new book
+    const newBook = await bookModel.create({
+      title,
+      price,
+      category,
+      image,
+      creatorID: adminID, // If creatorID is optional, remove it from schema
+    });
+
+    res.status(201).json({
+      message: "Book added",
+      bookID: newBook._id,
+    });
+  } catch (err) {
+    res.status(500).json({
+      err: true,
+      message: "Internal server error",
+      details: err.message,
+    });
+  }
+});
+adminRouter.put("/book", adminAuth, async (req, res) => {
+  const adminID = req.adminID; // Extract admin ID from the middleware
+  const { id } = req.params; // Get the book ID from the route parameter
+  const { title, category, image, price } = req.body; // Get updated fields from the request body
+
+  // Validate input
+  if (!title || !price || !category || !image) {
+    return res.status(400).json({
+      msg: "Please provide at least one field to update {title, price, category, image}",
+    });
+  }
+
+  try {
+    // Check if the book exists
+    const existingBook = await bookModel.findById(id);
+    if (!existingBook) {
+      return res.status(404).json({
+        error: true,
+        message: "Book not found",
+      });
+    }
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        msg: "Invalid book ID format",
+      });
+    }
+
+    // Update the book with new values
+    const updatedBook = await bookModel.findByIdAndUpdate(
+      id,
+      {
+        title,
+      price,
+      category,
+      image,
+      creatorID: adminID,
+      },
+      { new: true } // Return the updated document
+    );
+
+    res.status(200).json({
+      message: "Book updated successfully",
+      book: updatedBook,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      err: true,
+      message: "Internal server error",
+      details: err.message,
+    });
+  }
+});
 
 
 

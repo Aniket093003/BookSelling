@@ -16,7 +16,7 @@ function Login() {
       password: data.password,
     };
     await axios
-      .post("http://localhost:3000/user/login", userInfo)
+      .post("http://localhost:4000/user/signin", userInfo)
       .then((res) => {
         console.log(res.data);
         if (res.data) {
@@ -24,7 +24,7 @@ function Login() {
           document.getElementById("my_modal_3").close();
           setTimeout(() => {
             window.location.reload();
-            localStorage.setItem("Users", JSON.stringify(res.data.user));
+            localStorage.setItem("users", JSON.stringify(res.data.user));
           }, 1000);
         }
       })

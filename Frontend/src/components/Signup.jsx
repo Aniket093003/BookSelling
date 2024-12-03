@@ -16,12 +16,12 @@ function Signup() {
 
   const onSubmit = async (data) => {
     const userInfo = {
-      fullname: data.fullname,
+      fullName: data.fullName,
       email: data.email,
       password: data.password,
     };
     await axios
-      .post("http://localhost:3000/user/signup", userInfo)
+      .post("http://localhost:4000/admin/signup", userInfo)
       .then((res) => {
         console.log(res.data);
         if (res.data) {
@@ -43,7 +43,6 @@ function Signup() {
         <div className=" w-[600px] ">
           <div className="modal-box">
             <form onSubmit={handleSubmit(onSubmit)} method="dialog">
-              {/* if there is a button in form, it will close the modal */}
               <Link
                 to="/"
                 className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
@@ -62,7 +61,7 @@ function Signup() {
                   {...register("fullname", { required: true })}
                 />
                 <br />
-                {errors.fullname && (
+                {errors.fullName && (
                   <span className="text-sm text-red-500">
                     This field is required
                   </span>
